@@ -636,10 +636,6 @@ static void do_request(g, fd, s, buf, bsize)
     {
     case EPMD_ALIVE2_REQ:
       dbg_printf(g,1,"** got ALIVE2_REQ");
-      if (!s->local_peer) {
-	   dbg_printf(g,0,"ALIVE2_REQ from non local address");
-	   return;
-      }
 
       /* The packet has the format "axxyyyyyy" where xx is port, given
 	 in network byte order, and yyyyyy is symname, possibly null
