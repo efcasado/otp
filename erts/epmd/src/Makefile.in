@@ -107,8 +107,8 @@ INSTALL_PROGS = $(BINDIR)/$(EPMD)
 # Options
 #---------------------------------
  
-EPMD_FLAGS = -DEPMD_PORT_NO=$(EPMD_PORT_NO)
-
+EPMD_FLAGS = -DEPMD_PORT_NO=$(EPMD_PORT_NO) \
+             -DEPMD_ADDRESS=\"$(EPMD_ADDRESS)\"
 #---------------------------------
 # source and object file information
 #---------------------------------

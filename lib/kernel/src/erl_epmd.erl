@@ -86,8 +86,8 @@ port_please1(Node,HostName, Timeout) ->
   end.
 
 names() ->
-    {ok, H} = inet:gethostname(),
-    names(H).
+    EpmdAddr = get_epmd_addr(),
+    get_names(EpmdAddr).
 
 names(HostName) when is_atom(HostName); is_list(HostName) ->
   case inet:gethostbyname(HostName) of
@@ -179,6 +179,17 @@ code_change(_OldVsn, State, _Extra) ->
 %%% Internal functions
 %%%----------------------------------------------------------------------
 
+get_epmd_addr() ->
+    case init:get_argument(epmd_addr) of
+        {ok, [[AddrStr|_]|_]} when is_list(AddrStr) ->
+            {ok, {hostent, AddrStr, _, _, _, [Addr| _]}} =
+                inet:gethostbyname(AddrStr),
+            Addr;
+        error ->
+            {ok, Addr} = inet_parse:address(?erlang_daemon_address),
+            Addr
+    end.
+
 get_epmd_port() ->
     case init:get_argument(epmd_port) of
 	{ok, [[PortStr|_]|_]} when is_list(PortStr) ->
@@ -190,7 +201,9 @@ get_epmd_port() ->
 %%
 %% Epmd socket
 %%
-open() -> open({127,0,0,1}).  % The localhost IP address.
+open() ->
+    EpmdAddr = get_epmd_addr(),
+    open(EpmdAddr).
 
 open({A,B,C,D}=EpmdAddr) when ?ip(A,B,C,D) ->
     gen_tcp:connect(EpmdAddr, get_epmd_port(), [inet]);

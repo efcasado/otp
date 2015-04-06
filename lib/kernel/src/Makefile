@@ -180,10 +180,12 @@ $(APPUP_TARGET): $(APPUP_SRC) ../vsn.mk
 	$(vsn_verbose)sed -e 's;%VSN%;$(KERNEL_VSN);' $< > $@
 
 
-EPMD_FLAGS = -Depmd_port_no=$(EPMD_PORT_NO)	\
-             -Depmd_node_type=$(EPMD_NODE_TYPE)	\
-             -Depmd_dist_low=$(EPMD_DIST_LOW)	\
-             -Depmd_dist_high=$(EPMD_DIST_HIGH)	\
+EPMD_FLAGS = -Depmd_address=\"$(EPMD_ADDRESS)\"		\
+             -Depmd_port_no=$(EPMD_PORT_NO)		\
+             -Depmd_node_type=$(EPMD_NODE_TYPE)		\
+             -Depmd_dist_low=$(EPMD_DIST_LOW)		\
+             -Depmd_dist_high=$(EPMD_DIST_HIGH)		\
+             -Derlang_daemon_address=\"$(EPMD_ADDRESS)\"\
              -Derlang_daemon_port=$(EPMD_PORT_NO)
 
 $(ESRC)/inet_dns_record_adts.hrl: $(ESRC)/inet_dns_record_adts.pl
@@ -242,8 +244,8 @@ $(EBIN)/inet_res.beam: ../include/inet.hrl inet_res.hrl inet_dns.hrl inet_int.hr
 $(EBIN)/inet_tcp.beam: inet_int.hrl
 $(EBIN)/inet_udp_dist.beam: ../include/net_address.hrl ../include/dist.hrl ../include/dist_util.hrl
 $(EBIN)/inet_udp.beam: inet_int.hrl
+$(EBIN)/inet_udp.beam: inet_int.hrl
+$(EBIN)/inet_udp.beam: inet_int.hrl
 $(EBIN)/inet_sctp.beam: inet_int.hrl ../include/inet_sctp.hrl
 $(EBIN)/net_kernel.beam: ../include/net_address.hrl
 $(EBIN)/os.beam: ../include/file.hrl
-$(EBIN)/ram_file.beam: ../include/file.hrl
-$(EBIN)/wrap_log_reader.beam: disk_log.hrl ../include/file.hrl

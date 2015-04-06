@@ -27,6 +27,9 @@
 #   4369 - Version 4.6.3 - 4.7.4       TCP/UDP
 EPMD_PORT_NO=4369
 
+# EPMD IP address
+#   127.0.0.1 - Version 4.7.4
+EPMD_ADDRESS=127.0.0.1
 
 # ------------------------------------------------
 # Client defines
